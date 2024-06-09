@@ -5,7 +5,9 @@ RUN apt-get update && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 RUN wget https://dlcdn.apache.org/tomcat/tomcat-9/v9.0.89/bin/apache-tomcat-9.0.89.tar.gz
-RUN tar -xvzf apache-tomcat-9.0.89.tar.gz # unzipping the tomcat
+RUN tar -xvzf apache-tomcat-9.0.89.tar.gz && mv apache-tomcat-9.0.89 /opt/tomcat
+# Set the working directory
+WORKDIR /opt/tomcat
 EXPOSE 8082
 CMD ["catalina.sh", "run"]
-ENTRYPOINT ["java","-jar","/petclinic.war"]
+ENTRYPOINT ["java", "-jar", "/opt/tomcat/webapps/petclinic.war"]
