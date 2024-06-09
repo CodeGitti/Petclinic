@@ -1,8 +1,11 @@
 FROM openjdk:8
-RUN wget -q https://archive.apache.org/dist/tomcat/tomcat-$TOMCAT_MAJOR_VERSION/v$TOMCAT_VERSION/bin/apache-tomcat-$TOMCAT_VERSION.tar.gz && \
-    tar xf apache-tomcat-$TOMCAT_VERSION.tar.gz -C /opt && \
-    rm apache-tomcat-$TOMCAT_VERSION.tar.gz && \
-    mv /opt/apache-tomcat-$TOMCAT_VERSION /opt/tomcat
+# Install dependencies
+RUN apt-get update && \
+    apt-get install -y openjdk-11-jdk wget && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+RUN wget https://dlcdn.apache.org/tomcat/tomcat-9/v9.0.89/bin/apache-tomcat-9.0.89.tar.gz
+RUN tar -xvzf apache-tomcat-9.0.89.tar.gz # unzipping the tomcat
 EXPOSE 8082
-ADD target/petclinic.war petclinic.war
+CMD ["catalina.sh", "run"]
 ENTRYPOINT ["java","-jar","/petclinic.war"]
