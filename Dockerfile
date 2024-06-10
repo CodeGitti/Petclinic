@@ -27,6 +27,8 @@ RUN tar -xvzf apache-tomcat-9.0.89.tar.gz
 #expose ports
 EXPOSE 8082
 
+#copy war file to tomcat.webapps
+ADD /var/lib/jenkins/workspace/cicd/target/petclinic.war /app/apache-tomcat-9.0.89/webapps"
 #Start tomcat server
 CMD ["sh", "-c", "sleep 5 && /app/apache-tomcat-9.0.89/bin/startup.sh && tail -f /app/apache-tomcat-9.0.89/logs/catalina.out"]
 #CMD ["sh", "-c", "sleep 5 && /app/apache-tomcat-9.0.89/bin/startup.sh"]
